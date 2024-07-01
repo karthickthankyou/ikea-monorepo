@@ -1,0 +1,1 @@
+export { DesignerThoughtsCard } from './DesignerThoughtsCard'

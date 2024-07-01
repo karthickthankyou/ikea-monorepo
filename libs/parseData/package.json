@@ -1,0 +1,9 @@
+{
+  "name": "parseData",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "papaparse": "^5.4.0"
+  }
+}

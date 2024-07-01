@@ -1,0 +1,1 @@
+export { GridOpinionated } from './GridOpinionated'

@@ -1,0 +1,1 @@
+export { BadgeText } from './BadgeText'

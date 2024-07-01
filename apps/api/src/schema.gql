@@ -1,0 +1,857 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  createdAt: String!
+  updatedAt: String!
+  uid: String!
+  displayName: String!
+  address: String!
+  about: String!
+  views: [View!]!
+  orders: [Order!]!
+  supports: [Support!]!
+  userProducts: [UserProduct!]!
+  seller: Seller!
+}
+
+type LoginOutput {
+  kind: String!
+  localId: String!
+  email: String!
+  displayName: String!
+  idToken: String!
+  refreshToken: String!
+  expiresIn: String!
+}
+
+type RegisterOutput {
+  kind: String!
+  localId: String!
+  email: String!
+  displayName: String!
+  idToken: String!
+  refreshToken: String!
+  expiresIn: String!
+}
+
+type RefreshTokenOutput {
+  access_token: String!
+  expires_in: String!
+  token_type: String!
+  refresh_token: String!
+  id_token: String!
+  user_id: String!
+  project_id: String!
+}
+
+type OrderLog {
+  id: Int!
+  createdAt: String!
+  updatedAt: String!
+  orderId: Int!
+  status: OrderStatus!
+  order: Order!
+}
+
+enum OrderStatus {
+  ORDER_RECEIVED
+  DELIVERED
+  DISPATCHED
+}
+
+type View {
+  pid: Int!
+  uid: String!
+  id: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  product: Product!
+  user: User!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Order {
+  status: OrderStatus!
+  id: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  pid: Int!
+  uid: String!
+  product: Product!
+  user: User!
+  orderLogs: [OrderLog!]!
+}
+
+type Support {
+  id: Int!
+  uid: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  title: String!
+  message: String!
+  location: String!
+  category: String!
+  user: User!
+}
+
+type UserProduct {
+  uid: String!
+  status: UserProductStatus!
+  id: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  pid: Int!
+  product: Product!
+  user: User!
+}
+
+enum UserProductStatus {
+  REMOVED_FROM_WISHLIST
+  WISHLISTED
+  IN_CART
+  SAVED_FOR_LATER
+}
+
+type Seller {
+  uid: String!
+  createdAt: String!
+  updatedAt: String!
+  products: [Product!]!
+}
+
+type Product {
+  id: Int!
+  url: String
+  price: Float!
+  outOfStock: Boolean
+  reviews: Int
+  rating: Float
+  discount: Float
+  oldPrice: Float
+  description: String
+  images: [String!]!
+  measurements: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  name: String!
+  category: String!
+  subCategory: String!
+  tags: [String!]!
+  sellerId: String!
+  views: [View!]!
+  orders: [Order!]!
+  userProduct: UserProduct
+  userProducts: [UserProduct!]
+}
+
+type ProductCountOutput {
+  count: Int!
+}
+
+type Query {
+  users(where: UserWhereInput, orderBy: [UserOrderByWithRelationInput!], cursor: WhereUniqueInputUid, take: Int, skip: Int, distinct: [UserScalarFieldEnum!]): [User!]!
+  user(where: UserWhereUniqueInput): User!
+  sellers(where: SellerWhereInput, orderBy: [SellerOrderByWithRelationInput!], cursor: WhereUniqueInputUid, take: Int, skip: Int, distinct: [SellerScalarFieldEnum!]): [Seller!]!
+  seller(where: SellerWhereUniqueInput): Seller!
+  products(where: ProductWhereInput, orderBy: [ProductOrderByWithRelationInput!], cursor: WhereUniqueInputNumber, take: Int, skip: Int, distinct: [ProductScalarFieldEnum!]): [Product!]!
+  product(where: ProductWhereUniqueInput): Product!
+  productAggregate(ProductWhereInput: ProductWhereInput): ProductCountOutput!
+  allUserProducts(where: UserProductWhereInput, orderBy: [UserProductOrderByWithRelationInput!], cursor: WhereUniqueInputNumber, take: Int, skip: Int, distinct: [UserProductScalarFieldEnum!]): [UserProduct!]!
+  myProducts(where: UserProductWhereInput, orderBy: [UserProductOrderByWithRelationInput!], cursor: WhereUniqueInputNumber, take: Int, skip: Int, distinct: [UserProductScalarFieldEnum!]): [UserProduct!]!
+  userProduct(where: UserProductWhereUniqueInput): UserProduct!
+  orders(where: OrderWhereInput, orderBy: [OrderOrderByWithRelationInput!], cursor: WhereUniqueInputNumber, take: Int, skip: Int, distinct: [OrderScalarFieldEnum!]): [Order!]!
+  myOrders(where: OrderWhereInput, orderBy: [OrderOrderByWithRelationInput!], cursor: WhereUniqueInputNumber, take: Int, skip: Int, distinct: [OrderScalarFieldEnum!]): [Order!]!
+  order(where: OrderWhereUniqueInput): Order!
+  orderAggregate(OrderWhereInput: OrderWhereInput): ProductCountOutput!
+  orderLogs(where: OrderLogWhereInput, orderBy: [OrderLogOrderByWithRelationInput!], cursor: WhereUniqueInputNumber, take: Int, skip: Int, distinct: [OrderLogScalarFieldEnum!]): [OrderLog!]!
+  orderLog(where: OrderLogWhereUniqueInput): OrderLog!
+  views(where: ViewWhereInput, orderBy: [ViewOrderByWithRelationInput!], cursor: WhereUniqueInputNumber, take: Int, skip: Int, distinct: [ViewScalarFieldEnum!]): [View!]!
+  myViews(where: ViewWhereInput, orderBy: [ViewOrderByWithRelationInput!], cursor: WhereUniqueInputNumber, take: Int, skip: Int, distinct: [ViewScalarFieldEnum!]): [View!]!
+  view(where: ViewWhereUniqueInput): View!
+  supports(where: SupportWhereInput, orderBy: [SupportOrderByWithRelationInput!], cursor: WhereUniqueInputNumber, take: Int, skip: Int, distinct: [SupportScalarFieldEnum!]): [Support!]!
+  mySupports(where: SupportWhereInput, orderBy: [SupportOrderByWithRelationInput!], cursor: WhereUniqueInputNumber, take: Int, skip: Int, distinct: [SupportScalarFieldEnum!]): [Support!]!
+  support(where: SupportWhereUniqueInput): Support!
+  supportAggregate(SupportWhereInput: SupportWhereInput): ProductCountOutput!
+}
+
+input UserWhereInput {
+  Seller: SellerRelationFilter
+  uid: StringFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  displayName: StringFilter
+  address: StringFilter
+  about: StringFilter
+  View: ViewListRelationFilter
+  Order: OrderListRelationFilter
+  Support: SupportListRelationFilter
+  UserProduct: UserProductListRelationFilter
+  AND: [UserWhereInput!]
+  OR: [UserWhereInput!]
+  NOT: [UserWhereInput!]
+}
+
+input SellerRelationFilter {
+  is: SellerWhereInput
+  isNot: SellerWhereInput
+}
+
+input SellerWhereInput {
+  user: UserRelationFilter
+  uid: StringFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  Product: ProductListRelationFilter
+  AND: [SellerWhereInput!]
+  OR: [SellerWhereInput!]
+  NOT: [SellerWhereInput!]
+}
+
+input UserRelationFilter {
+  is: UserWhereInput
+  isNot: UserWhereInput
+}
+
+input StringFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: String
+  mode: QueryMode
+}
+
+enum QueryMode {
+  default
+  insensitive
+}
+
+input DateTimeFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+}
+
+input ProductListRelationFilter {
+  every: ProductWhereInput
+  some: ProductWhereInput
+  none: ProductWhereInput
+}
+
+input ProductWhereInput {
+  id: IntFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  name: StringFilter
+  url: StringFilter
+  price: IntFilter
+  category: StringFilter
+  subCategory: StringFilter
+  outOfStock: BoolFilter
+  reviews: IntFilter
+  rating: IntFilter
+  discount: IntFilter
+  oldPrice: IntFilter
+  tags: StringFilter
+  description: StringFilter
+  sellerId: StringFilter
+  images: StringFilter
+  measurements: StringFilter
+  seller: SellerRelationFilter
+  View: ViewListRelationFilter
+  Order: OrderListRelationFilter
+  UserProduct: UserProductListRelationFilter
+  AND: [ProductWhereInput!]
+  OR: [ProductWhereInput!]
+  NOT: [ProductWhereInput!]
+}
+
+input IntFilter {
+  equals: Int
+  in: Int
+  notIn: Int
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: Int
+}
+
+input BoolFilter {
+  equals: Boolean
+  not: Boolean
+}
+
+input ViewListRelationFilter {
+  every: ViewWhereInput
+  some: ViewWhereInput
+  none: ViewWhereInput
+}
+
+input ViewWhereInput {
+  id: IntFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  pid: IntFilter
+  uid: StringFilter
+  product: ProductRelationFilter
+  user: UserRelationFilter
+  AND: [ViewWhereInput!]
+  OR: [ViewWhereInput!]
+  NOT: [ViewWhereInput!]
+}
+
+input ProductRelationFilter {
+  is: ProductWhereInput
+  isNot: ProductWhereInput
+}
+
+input OrderListRelationFilter {
+  every: OrderWhereInput
+  some: OrderWhereInput
+  none: OrderWhereInput
+}
+
+input OrderWhereInput {
+  OrderLog: OrderLogListRelationFilter
+  id: IntFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  pid: IntFilter
+  uid: StringFilter
+  status: EnumOrderStatusFilter
+  product: ProductRelationFilter
+  user: UserRelationFilter
+  AND: [OrderWhereInput!]
+  OR: [OrderWhereInput!]
+  NOT: [OrderWhereInput!]
+}
+
+input OrderLogListRelationFilter {
+  every: OrderLogWhereInput
+  some: OrderLogWhereInput
+  none: OrderLogWhereInput
+}
+
+input OrderLogWhereInput {
+  id: IntFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  orderId: IntFilter
+  status: EnumOrderStatusFilter
+  order: OrderRelationFilter
+  AND: [OrderLogWhereInput!]
+  OR: [OrderLogWhereInput!]
+  NOT: [OrderLogWhereInput!]
+}
+
+input EnumOrderStatusFilter {
+  equals: OrderStatus
+  in: [OrderStatus!]
+  notIn: [OrderStatus!]
+  not: EnumOrderStatusFilter
+}
+
+input OrderRelationFilter {
+  is: OrderWhereInput
+  isNot: OrderWhereInput
+}
+
+input UserProductListRelationFilter {
+  every: UserProductWhereInput
+  some: UserProductWhereInput
+  none: UserProductWhereInput
+}
+
+input UserProductWhereInput {
+  id: IntFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  pid: IntFilter
+  uid: StringFilter
+  status: EnumUserProductStatusFilter
+  product: ProductRelationFilter
+  user: UserRelationFilter
+  AND: [UserProductWhereInput!]
+  OR: [UserProductWhereInput!]
+  NOT: [UserProductWhereInput!]
+}
+
+input EnumUserProductStatusFilter {
+  equals: UserProductStatus
+  in: [UserProductStatus!]
+  notIn: [UserProductStatus!]
+  not: EnumUserProductStatusFilter
+}
+
+input SupportListRelationFilter {
+  every: SupportWhereInput
+  some: SupportWhereInput
+  none: SupportWhereInput
+}
+
+input SupportWhereInput {
+  category: StringFilter
+  id: IntFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  uid: StringFilter
+  title: StringFilter
+  message: StringFilter
+  user: UserRelationFilter
+  AND: [SupportWhereInput!]
+  OR: [SupportWhereInput!]
+  NOT: [SupportWhereInput!]
+  location: StringFilter!
+}
+
+input UserOrderByWithRelationInput {
+  Seller: SellerOrderByWithRelationInput
+  uid: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+  displayName: SortOrder
+  address: SortOrder
+  about: SortOrder
+  View: ViewOrderByRelationAggregateInput
+  Order: OrderOrderByRelationAggregateInput
+  Support: SupportOrderByRelationAggregateInput
+  UserProduct: UserProductOrderByRelationAggregateInput
+}
+
+input SellerOrderByWithRelationInput {
+  user: UserOrderByWithRelationInput
+  uid: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+  Product: ProductOrderByRelationAggregateInput
+}
+
+enum SortOrder {
+  asc
+  desc
+}
+
+input ProductOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input ViewOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input OrderOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input SupportOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input UserProductOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input WhereUniqueInputUid {
+  uid: String
+}
+
+enum UserScalarFieldEnum {
+  uid
+  createdAt
+  updatedAt
+  displayName
+  address
+  about
+}
+
+input UserWhereUniqueInput {
+  uid: String
+}
+
+enum SellerScalarFieldEnum {
+  uid
+  createdAt
+  updatedAt
+}
+
+input SellerWhereUniqueInput {
+  uid: String
+}
+
+input ProductOrderByWithRelationInput {
+  id: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+  name: SortOrder
+  url: SortOrder
+  price: SortOrder
+  category: SortOrder
+  subCategory: SortOrder
+  outOfStock: SortOrder
+  reviews: SortOrder
+  rating: SortOrder
+  discount: SortOrder
+  oldPrice: SortOrder
+  tags: SortOrder
+  description: SortOrder
+  sellerId: SortOrder
+  images: SortOrder
+  measurements: SortOrder
+  seller: SellerOrderByWithRelationInput
+  View: ViewOrderByRelationAggregateInput
+  Order: OrderOrderByRelationAggregateInput
+  UserProduct: UserProductOrderByRelationAggregateInput
+}
+
+input WhereUniqueInputNumber {
+  id: Int
+}
+
+enum ProductScalarFieldEnum {
+  id
+  createdAt
+  updatedAt
+  name
+  url
+  price
+  category
+  subCategory
+  outOfStock
+  reviews
+  rating
+  discount
+  oldPrice
+  tags
+  images
+  measurements
+  description
+  sellerId
+}
+
+input ProductWhereUniqueInput {
+  id: Int
+}
+
+input UserProductOrderByWithRelationInput {
+  id: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+  pid: SortOrder
+  uid: SortOrder
+  status: SortOrder
+  product: ProductOrderByWithRelationInput
+  user: UserOrderByWithRelationInput
+}
+
+enum UserProductScalarFieldEnum {
+  id
+  createdAt
+  updatedAt
+  pid
+  uid
+  status
+}
+
+input UserProductWhereUniqueInput {
+  id: Int
+}
+
+input OrderOrderByWithRelationInput {
+  id: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+  pid: SortOrder
+  uid: SortOrder
+  status: SortOrder
+  product: ProductOrderByWithRelationInput
+  user: UserOrderByWithRelationInput
+  OrderLog: OrderLogOrderByRelationAggregateInput
+}
+
+input OrderLogOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+enum OrderScalarFieldEnum {
+  id
+  createdAt
+  updatedAt
+  pid
+  uid
+  status
+}
+
+input OrderWhereUniqueInput {
+  id: Int
+}
+
+input OrderLogOrderByWithRelationInput {
+  id: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+  orderId: SortOrder
+  status: SortOrder
+  order: SortOrder
+}
+
+enum OrderLogScalarFieldEnum {
+  id
+  createdAt
+  updatedAt
+  orderId
+  status
+}
+
+input OrderLogWhereUniqueInput {
+  id: Int
+}
+
+input ViewOrderByWithRelationInput {
+  id: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+  pid: SortOrder
+  uid: SortOrder
+  product: ProductOrderByWithRelationInput
+  user: UserOrderByWithRelationInput
+}
+
+enum ViewScalarFieldEnum {
+  id
+  createdAt
+  updatedAt
+  pid
+  uid
+}
+
+input ViewWhereUniqueInput {
+  id: Int
+}
+
+input SupportOrderByWithRelationInput {
+  category: SortOrder
+  location: SortOrder
+  id: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+  uid: SortOrder
+  title: SortOrder
+  message: SortOrder
+  user: UserOrderByWithRelationInput
+}
+
+enum SupportScalarFieldEnum {
+  id
+  createdAt
+  updatedAt
+  uid
+  title
+  location
+  message
+  category
+}
+
+input SupportWhereUniqueInput {
+  id: Int
+}
+
+type Mutation {
+  login(credentials: LoginInput!): LoginOutput!
+  register(credentials: RegisterInput!): RegisterOutput!
+  refreshToken(refreshTokenInput: RefreshTokenInput!): RefreshTokenOutput!
+  setRole(setRoleInput: SetRoleInput!): Boolean!
+  setAdmin(uid: String!): Boolean!
+  createUser(createUserInput: CreateUserInput!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  removeUser(where: UserWhereUniqueInput): User!
+  createSeller(createSellerInput: CreateSellerInput!): Seller!
+  updateSeller(updateSellerInput: UpdateSellerInput!): Seller!
+  removeSeller(where: SellerWhereUniqueInput): Seller!
+  createProduct(createProductInput: CreateProductInput!): Product!
+  updateProduct(updateProductInput: UpdateProductInput!): Product!
+  removeProduct(where: ProductWhereUniqueInput): Product!
+  createUserProduct(createUserProductInput: CreateUserProductInput!): UserProduct!
+  updateUserProduct(updateUserProductInput: UpdateUserProductInput!): UserProduct!
+  removeUserProduct(where: UserProductWhereUniqueInput): UserProduct!
+  createOrder(createOrderInput: CreateOrderInput!): Order!
+  updateOrder(updateOrderInput: UpdateOrderInput!): Order!
+  removeOrder(where: OrderWhereUniqueInput): Order!
+  createOrderLog(createOrderLogInput: CreateOrderLogInput!): OrderLog!
+  updateOrderLog(updateOrderLogInput: UpdateOrderLogInput!): OrderLog!
+  removeOrderLog(where: OrderLogWhereUniqueInput): OrderLog!
+  createView(createViewInput: CreateViewInput!): View!
+  updateView(updateViewInput: UpdateViewInput!): View!
+  removeView(where: ViewWhereUniqueInput): View!
+  createSupport(createSupportInput: CreateSupportInput!): Support!
+  updateSupport(updateSupportInput: UpdateSupportInput!): Support!
+  removeSupport(where: SupportWhereUniqueInput): Support!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+input RegisterInput {
+  email: String!
+  password: String!
+  displayName: String
+}
+
+input RefreshTokenInput {
+  refresh_token: String!
+}
+
+input SetRoleInput {
+  uid: String!
+  role: RoleEnum!
+}
+
+"""Enum for roles"""
+enum RoleEnum {
+  admin
+  moderator
+}
+
+input CreateUserInput {
+  uid: String!
+  displayName: String!
+  address: String!
+  about: String
+}
+
+input UpdateUserInput {
+  uid: String
+  displayName: String
+  address: String
+  about: String
+  id: String!
+}
+
+input CreateSellerInput {
+  uid: String!
+}
+
+input UpdateSellerInput {
+  uid: String
+  id: String!
+}
+
+input CreateProductInput {
+  price: Float!
+  images: [String!]!
+  name: String!
+  category: String!
+  subCategory: String!
+  tags: [String!]!
+  sellerId: String!
+  url: String
+  outOfStock: Boolean
+  reviews: Int
+  rating: Float
+  discount: Float
+  oldPrice: Float
+  description: String
+  measurements: String
+}
+
+input UpdateProductInput {
+  price: Float
+  images: [String!]
+  name: String
+  category: String
+  subCategory: String
+  tags: [String!]
+  sellerId: String
+  url: String
+  outOfStock: Boolean
+  reviews: Int
+  rating: Float
+  discount: Float
+  oldPrice: Float
+  description: String
+  measurements: String
+  id: Int!
+}
+
+input CreateUserProductInput {
+  uid: String!
+  status: UserProductStatus!
+  pid: Int!
+}
+
+input UpdateUserProductInput {
+  uid: String
+  status: UserProductStatus
+  pid: Int
+  id: Int!
+}
+
+input CreateOrderInput {
+  status: OrderStatus!
+  pid: Int!
+  uid: String!
+}
+
+input UpdateOrderInput {
+  status: OrderStatus
+  pid: Int
+  uid: String
+  id: Int!
+}
+
+input CreateOrderLogInput {
+  orderId: Int!
+  status: OrderStatus!
+}
+
+input UpdateOrderLogInput {
+  orderId: Int
+  status: OrderStatus
+  id: Int!
+}
+
+input CreateViewInput {
+  pid: Int!
+  uid: String!
+}
+
+input UpdateViewInput {
+  pid: Int
+  uid: String
+  id: Int!
+}
+
+input CreateSupportInput {
+  uid: String!
+  title: String!
+  message: String!
+  location: String!
+  category: String!
+}
+
+input UpdateSupportInput {
+  uid: String
+  title: String
+  message: String
+  location: String
+  category: String
+  id: Int!
+}

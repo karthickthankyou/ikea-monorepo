@@ -1,0 +1,172 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model User {
+    uid         String        @id
+    createdAt   DateTime      @default(now())
+    updatedAt   DateTime      @updatedAt
+    displayName String
+    address     String
+    about       String
+    View        View[]
+    Order       Order[]
+    Support     Support[]
+    UserProduct UserProduct[]
+    Seller      Seller?
+}
+
+model Seller {
+    uid  String @id
+    user User   @relation(fields: [uid], references: [uid])
+
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    Product   Product[]
+}
+
+model Product {
+    id           Int           @id @default(autoincrement())
+    createdAt    DateTime      @default(now())
+    updatedAt    DateTime      @updatedAt
+    name         String
+    url          String?
+    price        Float
+    category     String
+    subCategory  String
+    outOfStock   Boolean?
+    reviews      Int?          @default(0)
+    rating       Float?
+    discount     Int?
+    oldPrice     Float?
+    tags         String[]
+    images       String[]
+    measurements String?       @db.Text
+    description  String?       @db.Text
+    sellerId     String
+    seller       Seller        @relation(fields: [sellerId], references: [uid])
+    View         View[]
+    Order        Order[]
+    UserProduct  UserProduct[]
+}
+
+model UserProduct {
+    id        Int      @id @default(autoincrement())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    pid     Int
+    product Product           @relation(fields: [pid], references: [id])
+    uid     String
+    user    User              @relation(fields: [uid], references: [uid])
+    status  UserProductStatus
+
+    @@unique([uid, pid])
+}
+
+model Order {
+    id        Int      @id @default(autoincrement())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    pid      Int
+    product  Product    @relation(fields: [pid], references: [id])
+    uid      String
+    user     User       @relation(fields: [uid], references: [uid])
+    OrderLog OrderLog[]
+
+    status OrderStatus
+}
+
+model OrderLog {
+    id        Int      @id @default(autoincrement())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    orderId Int
+    order   Order       @relation(fields: [orderId], references: [id])
+    status  OrderStatus
+}
+
+model View {
+    id        Int      @id @default(autoincrement())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    pid     Int
+    product Product @relation(fields: [pid], references: [id])
+    uid     String
+    user    User    @relation(fields: [uid], references: [uid])
+}
+
+model Support {
+    id        Int      @id @default(autoincrement())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    uid  String
+    user User   @relation(fields: [uid], references: [uid])
+
+    title    String
+    location String?
+    message  String
+    category String?
+}
+
+enum Category {
+    Furniture
+    KitchenAndAppliances
+    BedsAndMattresses
+    StorageAndOrganisation
+    WorkingFromHome
+    Textiles
+    Decoration
+    BathroomProducts
+    OutdoorProducts
+    Lighting
+    CarpetsMatsAndFlooring
+    BabyAndChildren
+    PotsAndPlants
+    KitchenwareAndTableware
+    HomeElectronics
+    LaundryAndCleaning
+    HomeSmart
+    VinterCollections
+    HomeImprovement
+    FoodAndBeverages
+}
+
+enum OrderStatus {
+    ORDER_RECEIVED
+    DELIVERED
+    DISPATCHED
+}
+
+enum Room {
+    Bedroom
+    LivingRoom
+    ChildrensRoom
+    HomeOffice
+    Kitchen
+    DiningRoom
+    Bathroom
+    Outdoor
+    Hallway
+    BusinessPlace
+}
+
+enum UserProductStatus {
+    PURCHASED
+    REMOVED_FROM_WISHLIST
+    WISHLISTED
+    IN_CART
+    SAVED_FOR_LATER
+}

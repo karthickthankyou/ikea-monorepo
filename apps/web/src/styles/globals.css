@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .gap-responsive {
+    @apply gap-2 md:gap-3 lg:gap-4;
+  }
+}
+
+.thin-scrollbar::-webkit-scrollbar {
+  @apply w-1 h-0.5;
+}
+
+.thin-scrollbar::-webkit-scrollbar-track {
+  @apply bg-black/10;
+}
+
+.thin-scrollbar::-webkit-scrollbar-thumb {
+  @apply w-1 h-1 rounded-full bg-black/60;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}

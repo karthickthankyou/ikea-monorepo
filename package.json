@@ -1,0 +1,38 @@
+{
+  "name": "ikea",
+  "version": "1.0.0",
+  "license": "MIT",
+  "private": "true",
+  "workspaces": {
+    "packages": [
+      "apps/*"
+    ],
+    "nohoist": [
+      "**/@nestjs",
+      "**/@nestjs/**"
+    ]
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^3.2.2",
+    "@graphql-codegen/client-preset": "^2.1.1",
+    "@graphql-codegen/typescript-react-apollo": "^3.3.7",
+    "@graphql-codegen/typescript-urql": "^3.7.3",
+    "@nrwl/nx-cloud": "latest",
+    "graphql": "^16.6.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^13.1.2",
+    "npm-run-all": "^4.1.5",
+    "nx": "15.4.2",
+    "prettier": "^2.8.4"
+  },
+  "scripts": {
+    "format:check": "prettier --check \"apps/**/*.{ts,tsx,js,json}\" --ignore-path .gitignore",
+    "format:write": "prettier --write \"apps/**/*.{ts,tsx,js,json}\" --ignore-path .gitignore",
+    "type:check": "nx run web:tsc && nx run api:tsc",
+    "lint": "nx run web:lint && nx run api:lint",
+    "validate": "run-p lint type:check format:check",
+    "prepare": "husky install",
+    "cloc": "npx cloc --exclude-dir=node_modules,dist,yarn.lock,package.json,@generated,generated,.next,build .",
+    "codegen": "graphql-codegen --config codegen.ts"
+  }
+}
